@@ -1,8 +1,5 @@
 const readline = require("readline");
 
-// -------------------------------------
-// Questions Array
-// -------------------------------------
 const questions = [
   {
     question: "What is the capital of France?",
@@ -20,28 +17,18 @@ const questions = [
     correct: 3
   }
 ];
-
-// -------------------------------------
-// Setup CLI Interface
-// -------------------------------------
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-// -------------------------------------
-// Game State Variables
-// -------------------------------------
 let score = 0;
 let currentQuestion = 0;
 let timerId;
-let timeRemaining = 20; // Game timer
+let timeRemaining = 20;
 
-// -------------------------------------
-// Game Timer
-// -------------------------------------
 function startGameTimer() {
-  console.log("\n⏳ Game timer started! You have 20 seconds.\n");
+  console.log("\n Game timer started! You have 20 seconds.\n");
 
   timerId = setInterval(() => {
     timeRemaining--;
@@ -49,15 +36,12 @@ function startGameTimer() {
 
     if (timeRemaining <= 0) {
       clearInterval(timerId);
-      console.log("\n\n⏰ Time's up!");
+      console.log("\n\n Time's up!");
       endGame();
     }
   }, 1000);
 }
 
-// -------------------------------------
-// Ask Each Question
-// -------------------------------------
 function askQuestion() {
   if (currentQuestion >= questions.length) {
     clearInterval(timerId);
@@ -68,17 +52,16 @@ function askQuestion() {
   
   console.log(`\nQuestion ${currentQuestion + 1}: ${q.question}`);
   
-  // Use array map() ➜ requirement satisfied
   q.options.map(option => console.log(option));
 
   rl.question("\nSelect your answer (1-4): ", (userInput) => {
     const userAnswer = Number(userInput);
 
     if (userAnswer === q.correct) {
-      console.log("✅ Correct!");
+      console.log(" Correct!");
       score++;
     } else {
-      console.log("❌ Incorrect!");
+      console.log(" Incorrect!");
     }
 
     currentQuestion++;
@@ -86,20 +69,14 @@ function askQuestion() {
   });
 }
 
-// -------------------------------------
-// End Game Function
-// -------------------------------------
 function endGame() {
-  console.log("\n🎉 GAME OVER 🎉");
+  console.log("\n GAME OVER ");
   console.log(`Your final score: ${score}/${questions.length}`);
   console.log("Thanks for playing!");
   
   rl.close();
 }
 
-// -------------------------------------
-// Start Game
-// -------------------------------------
 console.log("Welcome to the CLI Trivia Game!");
 rl.question("Press ENTER to start...", () => {
   startGameTimer();
